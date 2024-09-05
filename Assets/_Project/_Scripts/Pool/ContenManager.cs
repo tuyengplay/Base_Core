@@ -9,14 +9,14 @@ public class ContenManager : ContentPrefabs
     {
         return ManagerPool.Spawn(_refContent);
     }
-    public static BaseItemPool Emit(ItemID _id)
+    public static ItemPool Emit(ItemID _id)
     {
-        BaseItemPool prefab = GetPrefab<BaseItemPool>(x =>
+        ItemPool prefab = GetPrefab<ItemPool>(x =>
         {
             return x.IdPool == _id;
         });
 
-        return Emit<BaseItemPool>(prefab);
+        return Emit<ItemPool>(prefab);
     }
     public static void EmitResource<T>(string _name, Action<T> _result, string path = "Prefabs")
     {
