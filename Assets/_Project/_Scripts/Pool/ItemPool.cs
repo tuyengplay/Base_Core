@@ -1,12 +1,14 @@
 using EranCore.PoolObject;
 using UnityEngine;
-
-public class ItemPool : BaseItem
+namespace GameCore
 {
-    [SerializeField]
-    private ItemID idPool;
-    public ItemID IdPool
+    public class ItemPool : BaseItem
     {
-        get => idPool;
+        [SerializeField]
+        private ItemID idPool;
+        public ItemID IdPool
+        {
+            get => idPool;
+        }
     }
 }
