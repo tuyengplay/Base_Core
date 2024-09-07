@@ -23,28 +23,28 @@ namespace GameCore
         [Searchable, TableList]
         [SerializeField] List<ItemSprite> itemSprites;
 
-        public Sprite GetSprite(ItemID itemID, int index = 0)
+        public Sprite GetSprite(ItemID _itemID, int _index = 0)
         {
-            ItemSprite itemSprite = itemSprites.Find(x => x.ID == itemID);
+            ItemSprite itemSprite = itemSprites.Find(_x => _x.ID == _itemID);
             if (itemSprite != null)
             {
-                if (index == 0)
+                if (_index == 0)
                 {
                     return itemSprite.sprite;
                 }
                 else
                 {
-                    if (itemSprite.others.Count() < index) return null;
-                    return itemSprite.others[index - 1];
+                    if (itemSprite.others.Count() < _index) return null;
+                    return itemSprite.others[_index - 1];
                 }
             }
 
             return null;
         }
 
-        public Sprite GetSpriteTheme(ItemID itemID, int indexTheme = 0)
+        public Sprite GetSpriteTheme(ItemID _itemID, int _indexTheme = 0)
         {
-            ItemSprite itemSprite = itemSprites.Find(x => x.ID == itemID);
+            ItemSprite itemSprite = itemSprites.Find(_x => _x.ID == _itemID);
             if (itemSprite != null)
             {
                 if (BaseScene.Instance.ThemeGame == Theme.Nomal)
@@ -53,9 +53,9 @@ namespace GameCore
                 }
                 else
                 {
-                    if (itemSprite.others.Count > 0 && indexTheme < itemSprite.others.Count)
+                    if (itemSprite.others.Count > 0 && _indexTheme < itemSprite.others.Count)
                     {
-                        return itemSprite.others[indexTheme];
+                        return itemSprite.others[_indexTheme];
                     }
                 }
             }
@@ -63,12 +63,12 @@ namespace GameCore
             return null;
         }
 
-        public Sprite GetSpriteOther(ItemID id, int indexSpriteOther = 0)
+        public Sprite GetSpriteOther(ItemID _id, int _indexSpriteOther = 0)
         {
-            ItemSprite itemSprite = itemSprites.Find(x => x.ID == id);
+            ItemSprite itemSprite = itemSprites.Find(_x => _x.ID == _id);
             if (itemSprite != null)
             {
-                if (itemSprite.others.Count > 0 && indexSpriteOther < itemSprite.others.Count)
+                if (itemSprite.others.Count > 0 && _indexSpriteOther < itemSprite.others.Count)
                 {
                     return itemSprite.others[0];
                 }
@@ -89,10 +89,10 @@ namespace GameCore
         public Sprite sprite;
         public List<Sprite> others;
 
-        public ItemSprite(ItemID iD, Sprite sprite)
+        public ItemSprite(ItemID _iD, Sprite _sprite)
         {
-            ID = iD;
-            this.sprite = sprite;
+            ID = _iD;
+            this.sprite = _sprite;
         }
     }
 }

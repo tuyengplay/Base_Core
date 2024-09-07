@@ -11,8 +11,8 @@ namespace GameCore
         {
             Type eventType = typeof(UnityEventBase);
             typeof(GameEvent).GetFields()
-                .Where(x => x.IsStatic && eventType.IsAssignableFrom(x.FieldType))
-                .ForEach(x => (x.GetValue(null) as UnityEventBase).RemoveAllListeners());
+                .Where(_x => _x.IsStatic && eventType.IsAssignableFrom(_x.FieldType))
+                .ForEach(_x => (_x.GetValue(null) as UnityEventBase).RemoveAllListeners());
         }
     }
 }

@@ -12,28 +12,28 @@ namespace GameCore
         }
         public static ItemPool Emit(ItemID _id)
         {
-            ItemPool prefab = GetPrefab<ItemPool>(x =>
+            ItemPool prefab = GetPrefab<ItemPool>(_x =>
             {
-                return x.IdPool == _id;
+                return _x.IdPool == _id;
             });
 
             return Emit<ItemPool>(prefab);
         }
-        public static void EmitResource<T>(string _name, Action<T> _result, string path = "Prefabs")
+        public static void EmitResource<T>(string _name, Action<T> _result, string _path = "Prefabs")
         {
-            ManagerResouce.GetPrefab(_name, (data) =>
+            ManagerResouce.GetPrefab(_name, (_data) =>
             {
-                GameObject clone = ManagerPool.Spawn(data);
+                GameObject clone = ManagerPool.Spawn(_data);
                 T get = clone.GetComponent<T>();
                 _result?.Invoke(get);
-            }, path);
+            }, _path);
         }
-        public static void EmitResource(string _name, Action<GameObject> _result, string path = "Prefabs")
+        public static void EmitResource(string _name, Action<GameObject> _result, string _path = "Prefabs")
         {
-            ManagerResouce.GetPrefab(_name, (data) =>
+            ManagerResouce.GetPrefab(_name, (_data) =>
             {
-                _result?.Invoke(ManagerPool.Spawn(data));
-            }, path);
+                _result?.Invoke(ManagerPool.Spawn(_data));
+            }, _path);
         }
     }
 }

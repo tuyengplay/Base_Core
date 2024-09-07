@@ -17,7 +17,7 @@ namespace EranCore
         public static readonly AndroidSdkVersions minAPIVersion = AndroidSdkVersions.AndroidApiLevel22;
         public static readonly AndroidSdkVersions targetAPIVersion = AndroidSdkVersions.AndroidApiLevel30;
 #endif
-        public static readonly string scriptingDefineSymbols = "ODIN_INSPECTOR,ODIN_INSPECTOR_3,ODIN_INSPECTOR_3_1,ADS,IAP,FIREBASE";
+        public static readonly string scriptingDefineSymbols = "ODIN_INSPECTOR,ODIN_INSPECTOR_3,ODIN_INSPECTOR_3_1,FIREBASE,ODIN_INSPECTOR_3_2,ODIN_INSPECTOR_3_3,ADS,IAP";
         //IOS
     }
 }

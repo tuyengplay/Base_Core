@@ -15,7 +15,7 @@ public enum ItemID
 }
 public static class ItemType
 {
-    public static List<ItemID> listIAPPack = ((ItemID[])Enum.GetValues(typeof(ItemID))).Where(id => (int)id >= (int)ItemID.pack_remove_ads && (int)id < (int)ItemID.pack_end).ToList();
+    public static List<ItemID> listIAPPack = ((ItemID[])Enum.GetValues(typeof(ItemID))).Where(_id => (int)_id >= (int)ItemID.pack_remove_ads && (int)_id < (int)ItemID.pack_end).ToList();
 
     public static bool IsIapPack(this ItemID _id)
     {

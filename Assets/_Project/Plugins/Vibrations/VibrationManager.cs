@@ -67,7 +67,7 @@ namespace GameCore.Vibrations
             }
         }
 
-        public static void Haptic(HapticTypes type, bool defaultToRegularVibrate = false)
+        public static void Haptic(HapticTypes _type, bool _defaultToRegularVibrate = false)
         {
             if (!AudioManager.Instance.IsOnVibrate)
             {
@@ -75,7 +75,7 @@ namespace GameCore.Vibrations
             }
             if (Android())
             {
-                switch (type)
+                switch (_type)
                 {
                     case HapticTypes.None:
                         // do nothing
@@ -111,7 +111,7 @@ namespace GameCore.Vibrations
             }
             else if (iOS())
             {
-                iOSTriggerHaptics(type, defaultToRegularVibrate);
+                iOSTriggerHaptics(_type, _defaultToRegularVibrate);
             }
         }
 
@@ -136,55 +136,55 @@ namespace GameCore.Vibrations
         private static jvalue[] AndroidVibrateMethodRawClassParameters = null;
 #endif
 
-        public static void AndroidVibrate(long milliseconds)
+        public static void AndroidVibrate(long _milliseconds)
         {
 
             if (!Android() || !AudioManager.Instance.IsOnVibrate) { return; }
-            AndroidVibrateMethodRawClassParameters[0].j = milliseconds;
+            AndroidVibrateMethodRawClassParameters[0].j = _milliseconds;
             AndroidJNI.CallVoidMethod(AndroidVibrator.GetRawObject(), AndroidVibrateMethodRawClass, AndroidVibrateMethodRawClassParameters);
         }
 
-        public static void AndroidVibrate(long milliseconds, int amplitude)
+        public static void AndroidVibrate(long _milliseconds, int _amplitude)
         {
             if (!Android() || !AudioManager.Instance.IsOnVibrate) { return; }
             if ((AndroidSDKVersion() < 26))
             {
-                AndroidVibrate(milliseconds);
+                AndroidVibrate(_milliseconds);
             }
             else
             {
                 VibrationEffectClassInitialization();
-                VibrationEffect = VibrationEffectClass.CallStatic<AndroidJavaObject>("createOneShot", new object[] { milliseconds, amplitude });
+                VibrationEffect = VibrationEffectClass.CallStatic<AndroidJavaObject>("createOneShot", new object[] { _milliseconds, _amplitude });
                 AndroidVibrator.Call("vibrate", VibrationEffect);
             }
         }
 
-        public static void AndroidVibrate(long[] pattern, int repeat)
+        public static void AndroidVibrate(long[] _pattern, int _repeat)
         {
             if (!Android() || !AudioManager.Instance.IsOnVibrate) { return; }
             if ((AndroidSDKVersion() < 26))
             {
-                AndroidVibrator.Call("vibrate", pattern, repeat);
+                AndroidVibrator.Call("vibrate", _pattern, _repeat);
             }
             else
             {
                 VibrationEffectClassInitialization();
-                VibrationEffect = VibrationEffectClass.CallStatic<AndroidJavaObject>("createWaveform", new object[] { pattern, repeat });
+                VibrationEffect = VibrationEffectClass.CallStatic<AndroidJavaObject>("createWaveform", new object[] { _pattern, _repeat });
                 AndroidVibrator.Call("vibrate", VibrationEffect);
             }
         }
 
-        public static void AndroidVibrate(long[] pattern, int[] amplitudes, int repeat)
+        public static void AndroidVibrate(long[] _pattern, int[] _amplitudes, int _repeat)
         {
             if (!Android() || !AudioManager.Instance.IsOnVibrate) { return; }
             if ((AndroidSDKVersion() < 26))
             {
-                AndroidVibrator.Call("vibrate", pattern, repeat);
+                AndroidVibrator.Call("vibrate", _pattern, _repeat);
             }
             else
             {
                 VibrationEffectClassInitialization();
-                VibrationEffect = VibrationEffectClass.CallStatic<AndroidJavaObject>("createWaveform", new object[] { pattern, amplitudes, repeat });
+                VibrationEffect = VibrationEffectClass.CallStatic<AndroidJavaObject>("createWaveform", new object[] { _pattern, _amplitudes, _repeat });
                 AndroidVibrator.Call("vibrate", VibrationEffect);
             }
         }
@@ -323,7 +323,7 @@ namespace GameCore.Vibrations
 
         }
 
-        private static void iOSTriggerHaptics(HapticTypes type, bool defaultToRegularVibrate = false)
+        private static void iOSTriggerHaptics(HapticTypes _type, bool _defaultToRegularVibrate = false)
         {
             if (!iOS()) { return; }
 
@@ -334,7 +334,7 @@ namespace GameCore.Vibrations
 
             if (HapticsSupported())
             {
-                switch (type)
+                switch (_type)
                 {
                     case HapticTypes.Selection:
                         SelectionHaptic();
@@ -365,7 +365,7 @@ namespace GameCore.Vibrations
                         break;
                 }
             }
-            else if (defaultToRegularVibrate)
+            else if (_defaultToRegularVibrate)
             {
 #if UNITY_IOS
                 Handheld.Vibrate();

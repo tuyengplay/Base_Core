@@ -4,8 +4,7 @@ using UnityEngine;
 using EranCore.Tweening.Plugins.Options;
 using EranCore.Tweening.Core;
 using EranCore.Tweening.Plugins.Core.PathCore;
-using EranCore.Tweening;
-namespace GameCore.Tweening
+namespace EranCore.Tweening
 {
     public static class TweenModuleUtils
     {
@@ -34,7 +33,7 @@ namespace GameCore.Tweening
 
         #endregion
 #if UNITY_EDITOR
-        static void PlaymodeStateChanged(UnityEditor.PlayModeStateChange state)
+        static void PlaymodeStateChanged(UnityEditor.PlayModeStateChange _state)
         {
             if (GameCoreTween.instance == null) return;
             GameCoreTween.instance.OnApplicationPause(UnityEditor.EditorApplication.isPaused);
@@ -42,60 +41,60 @@ namespace GameCore.Tweening
 #endif
         public static class Physics
         {
-            public static void SetOrientationOnPath(PathOptions options, Tween t, Quaternion newRot, Transform trans)
+            public static void SetOrientationOnPath(PathOptions _options, Tween _t, Quaternion _newRot, Transform _trans)
             {
-                if (options.isRigidbody) ((Rigidbody)t.target).rotation = newRot;
-                else trans.rotation = newRot;
+                if (_options.isRigidbody) ((Rigidbody)_t.target).rotation = _newRot;
+                else _trans.rotation = _newRot;
             }
 
-            public static bool HasRigidbody2D(Component target)
+            public static bool HasRigidbody2D(Component _target)
             {
-                return target.GetComponent<Rigidbody2D>() != null;
+                return _target.GetComponent<Rigidbody2D>() != null;
             }
 
 
 
             [UnityEngine.Scripting.Preserve]
-            public static bool HasRigidbody(Component target)
+            public static bool HasRigidbody(Component _target)
             {
-                return target.GetComponent<Rigidbody>() != null;
+                return _target.GetComponent<Rigidbody>() != null;
 
             }
 
             [UnityEngine.Scripting.Preserve]
             public static TweenerCore<Vector3, Path, PathOptions> CreateTweenPathTween(
-                MonoBehaviour target, bool tweenRigidbody, bool isLocal, Path path, float duration, PathMode pathMode
+                MonoBehaviour _target, bool _tweenRigidbody, bool _isLocal, Path _path, float _duration, PathMode _pathMode
             )
             {
                 TweenerCore<Vector3, Path, PathOptions> t = null;
                 bool rBodyFoundAndTweened = false;
-                if (tweenRigidbody)
+                if (_tweenRigidbody)
                 {
-                    Rigidbody rBody = target.GetComponent<Rigidbody>();
+                    Rigidbody rBody = _target.GetComponent<Rigidbody>();
                     if (rBody != null)
                     {
                         rBodyFoundAndTweened = true;
-                        t = isLocal
-                            ? rBody.TweenLocalPath(path, duration, pathMode)
-                            : rBody.TweenPath(path, duration, pathMode);
+                        t = _isLocal
+                            ? rBody.TweenLocalPath(_path, _duration, _pathMode)
+                            : rBody.TweenPath(_path, _duration, _pathMode);
                     }
                 }
-                if (!rBodyFoundAndTweened && tweenRigidbody)
+                if (!rBodyFoundAndTweened && _tweenRigidbody)
                 {
-                    Rigidbody2D rBody2D = target.GetComponent<Rigidbody2D>();
+                    Rigidbody2D rBody2D = _target.GetComponent<Rigidbody2D>();
                     if (rBody2D != null)
                     {
                         rBodyFoundAndTweened = true;
-                        t = isLocal
-                            ? rBody2D.TweenLocalPath(path, duration, pathMode)
-                            : rBody2D.TweenPath(path, duration, pathMode);
+                        t = _isLocal
+                            ? rBody2D.TweenLocalPath(_path, _duration, _pathMode)
+                            : rBody2D.TweenPath(_path, _duration, _pathMode);
                     }
                 }
                 if (!rBodyFoundAndTweened)
                 {
-                    t = isLocal
-                        ? target.transform.TweenLocalPath(path, duration, pathMode)
-                        : target.transform.TweenPath(path, duration, pathMode);
+                    t = _isLocal
+                        ? _target.transform.TweenLocalPath(_path, _duration, _pathMode)
+                        : _target.transform.TweenPath(_path, _duration, _pathMode);
                 }
                 return t;
             }

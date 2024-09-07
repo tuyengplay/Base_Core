@@ -60,16 +60,16 @@ namespace GameCore
         }
         public ItemBuyADS GetItemADS(ItemID _id)
         {
-            ItemBuyADS item = userData.listBuyADS.Find(x => x.ID == _id);
+            ItemBuyADS item = userData.listBuyADS.Find(_x => _x.ID == _id);
             if (item == null)
             {
                 item = new ItemBuyADS(_id);
             }
             return item;
         }
-        public void SetItemAds(ItemID id)
+        public void SetItemAds(ItemID _id)
         {
-            userData.listBuyADS.Find(x => x.ID == id).ADSWatched++;
+            userData.listBuyADS.Find(_x => _x.ID == _id).ADSWatched++;
             Save();
         }
         public void Save()

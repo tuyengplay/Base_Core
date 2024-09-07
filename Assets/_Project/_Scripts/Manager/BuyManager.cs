@@ -13,20 +13,20 @@ namespace GameCore
     {
         List<ItemValueFloat> requires = null;
         Action<bool> OnDone = null;
-        public void Buy(List<ItemValueFloat> _requires, Action<bool> _OnDone, string _adLocal)
+        public void Buy(List<ItemValueFloat> _requires, Action<bool> _onDone, string _adLocal)
         {
             requires = _requires;
-            OnDone = _OnDone;
+            OnDone = _onDone;
             if (_requires == null || requires.Count <= 0)
             {
                 OnCheckDone(true);
                 return;
             }
-            if (requires.Contains(x => x.ID == ItemID.Ads))
+            if (requires.Contains(_x => _x.ID == ItemID.Ads))
             {
                 OnADS(_adLocal, OnCheckDone);
             }
-            else if (requires.Contains(x => ItemType.IsIapPack(x.ID)))
+            else if (requires.Contains(_x => ItemType.IsIapPack(_x.ID)))
             {
                 //IAPManager.Instance.PurchaseProduct(requires[0].ID, OnCheckDone, _adLocal);
             }
@@ -46,21 +46,21 @@ namespace GameCore
             }
 
         }
-        void OnCheckDone(bool isSuccess, ItemID failItem = ItemID.None)
+        void OnCheckDone(bool _isSuccess, ItemID _failItem = ItemID.None)
         {
-            if (isSuccess)
+            if (_isSuccess)
             {
                 StartCoroutine(OnClaimRewards());
             }
             else
             {
-                OnFail(failItem);
+                OnFail(_failItem);
             }
 
             requires = null;
-            OnDone?.Invoke(isSuccess);
+            OnDone?.Invoke(_isSuccess);
         }
-        private void OnADS(string _adLocal, Action<bool, ItemID> onCkeckDone)
+        private void OnADS(string _adLocal, Action<bool, ItemID> _onCkeckDone)
         {
             //AdsManager.Instance.ShowRewardedAd(_adLocal.ToString(), (success) =>
             //{
@@ -72,21 +72,21 @@ namespace GameCore
 
             if (requires != null)
             {
-                requires.ForEach(x => User.Ins[x.ID] -= (int)x.Value);
+                requires.ForEach(_x => User.Ins[_x.ID] -= (int)_x.Value);
             }
             yield break;
         }
-        private void OnFail(ItemID failItem)
+        private void OnFail(ItemID _failItem)
         {
             Debug.Log("Faild");
-            if (failItem == ItemID.Ads)
+            if (_failItem == ItemID.Ads)
             {
                 //UIManager.Instance.OpenUI<PopupNoti>(StaticClass.PopupNoti, (pop) =>
                 //{
                 //    pop.Setup("ADS NOT READY!", "Please ,check your internet connection OR watch full video!");
                 //});
             }
-            else if (ItemType.IsIapPack(failItem))
+            else if (ItemType.IsIapPack(_failItem))
             {
                 //UIManager.Instance.OpenUI<PopupNoti>(StaticClass.PopupNoti, (pop) =>
                 //{
@@ -103,7 +103,7 @@ namespace GameCore
 
         }
         #region FXClaim
-        public static void ClaimFlyItem(ItemValueInt _item, Transform _startPos, UnityAction _OnComplete, Transform _endPos = null, bool realClaim = true)
+        public static void ClaimFlyItem(ItemValueInt _item, Transform _startPos, UnityAction _onComplete, Transform _endPos = null, bool _realClaim = true)
         {
             int fxCount;// Tong fx Sinh ra
             int fxValue;// Value trong 1 FX
@@ -144,23 +144,23 @@ namespace GameCore
             }
             BuyManager.Instance.StartCoroutine(OnShowFlyItem(_item.ID, _startPos.position, endPos, fxCount, () =>
             {
-                if (realClaim)
+                if (_realClaim)
                 {
                     User.Ins[_item.ID] += fxValue;
                 }
             },
             () =>
             {
-                if (realClaim)
+                if (_realClaim)
                 {
                     User.Ins[_item.ID] += fxEndValue;
                 }
-                _OnComplete?.Invoke();
+                _onComplete?.Invoke();
             }));
         }
-        private static int MaxFxValue(ItemID idFX)
+        private static int MaxFxValue(ItemID _idFX)
         {
-            switch (idFX)
+            switch (_idFX)
             {
                 case ItemID.Coin:
                     {
@@ -170,7 +170,7 @@ namespace GameCore
 
             return 10;
         }
-        private static IEnumerator OnShowFlyItem(ItemID _id, Vector3 _startPos, Vector3 _endPos, int _coutItem, UnityAction _OnEachComplete, UnityAction _OnLastComplete)
+        private static IEnumerator OnShowFlyItem(ItemID _id, Vector3 _startPos, Vector3 _endPos, int _coutItem, UnityAction _onEachComplete, UnityAction _onLastComplete)
         {
             List<ItemIcon> listITem = new List<ItemIcon>();
             int moveDownCount = 0;
@@ -197,15 +197,15 @@ namespace GameCore
                 {
                     if (completeItem != listITem.Count - 1)
                     {
-                        _OnEachComplete?.Invoke();
+                        _onEachComplete?.Invoke();
                     }
                     //AudioManager.Instance.PlaySoundUI();
                     completeItem++;
                 });
             }
             yield return new WaitUntil(() => completeItem == listITem.Count);
-            listITem.ForEach(x => x.Kill());
-            _OnLastComplete?.Invoke();
+            listITem.ForEach(_x => _x.Kill());
+            _onLastComplete?.Invoke();
         }
         #endregion
     }
